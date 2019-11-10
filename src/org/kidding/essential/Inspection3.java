@@ -1,4 +1,4 @@
-package org.kidding.math;
+package org.kidding.essential;
     
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
