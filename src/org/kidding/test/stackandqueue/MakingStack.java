@@ -22,7 +22,7 @@ public class MakingStack {
 			}else if (order.equals("size")) {
 				System.out.println(stack.size());
 			}else if (order.equals("empty")) {
-				System.out.println(stack.isEmpty() ? 1 : 0);
+				System.out.println(stack.isEmpty() ? "empty" : "not empty");
 			}else if (order.equals("top")) {
 				System.out.println(stack.isEmpty() ? -1:stack.peek());
 			}
