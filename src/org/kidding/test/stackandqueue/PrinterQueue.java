@@ -34,19 +34,19 @@ public class PrinterQueue {
 			int size = Integer.parseInt(temp[0]);
 			int index = Integer.parseInt(temp[1]);
 			String[] arrString = br.readLine().split(" ");
+
 			boolean isMax = false;
 			int cnt = 0;
-			
 			que.clear();
-			
+
 			for(int i=0; i<size; i++) {
 				que.add(Integer.parseInt(arrString[i]));
 			}
 		    
-			while(true) {
+			while(!isMax) {
 				
-				for(int i=0; i<size-1; i++) {
-					System.out.println(que.get(i));
+				for(int i=0; i<que.size(); i++) {
+					//System.out.println(que.get(i));
 					if(que.peek() >= que.get(i)) {
 						isMax = true;
 					}else {
@@ -62,6 +62,7 @@ public class PrinterQueue {
 						break;
 					}else {
 						index--;
+						isMax = false;
 					}
 				}else {
 					int pollNum = que.poll();
@@ -74,9 +75,7 @@ public class PrinterQueue {
 					}
 				}
 			}
-			
 			sb.append(cnt + "\n");
-
 			n--;
 		}
 		
