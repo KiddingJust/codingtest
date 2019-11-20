@@ -18,6 +18,9 @@ public class PrinterQueue {
 	// 1 A
 	static int cnt;
 	static int index;
+	static int size;
+	static String[] temp;
+	static String[] arrString;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -28,21 +31,22 @@ public class PrinterQueue {
 		LinkedList<Integer> que = new LinkedList<Integer>();
 		StringBuilder sb = new StringBuilder();
 		
-		while(n > 0) {
+		while(n-- != 0) {
 			
-			String[] temp = br.readLine().split(" ");
-			int size = Integer.parseInt(temp[0]);
-			int index = Integer.parseInt(temp[1]);
-			String[] arrString = br.readLine().split(" ");
+			temp = br.readLine().split(" ");
+			size = Integer.parseInt(temp[0]);
+			index = Integer.parseInt(temp[1]);
+			arrString = br.readLine().split(" ");
 
 			boolean isMax = false;
-			int cnt = 0;
+			cnt = 0;
 			que.clear();
 
 			for(int i=0; i<size; i++) {
 				que.add(Integer.parseInt(arrString[i]));
 			}
 		    
+			
 			while(!isMax) {
 				
 				for(int i=0; i<que.size(); i++) {
@@ -76,7 +80,6 @@ public class PrinterQueue {
 				}
 			}
 			sb.append(cnt + "\n");
-			n--;
 		}
 		
 		bw.write(sb.toString());
