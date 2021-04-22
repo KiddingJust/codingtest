@@ -1,4 +1,4 @@
-package org.kidding.math;
+package org.kidding.backjoon.math;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

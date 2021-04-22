@@ -4,18 +4,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+
+
+//LinkedList 생성자 부분만 이해되지 않음. 
 public class BFS {
 	public static void main(String[] args) {
-		  Graph g = new Graph(5);
+		 
+		
+		Graph g = new Graph(5); //정점의 갯수만큼 생성 
 
 		  
-//		  g.addEdge(0, 1);
-//		  g.addEdge(0, 2);
-//		  g.addEdge(1, 2);
-//		  g.addEdge(2, 0);
-//		  g.addEdge(2, 3);
-//		  g.addEdge(3, 3);
-		  
+		  //양방향으로 변경하려면 생성자에서 설정해주면 됨.
+		  //addEdge(v, w)에서 w, v 위치만 바꿔주면 ok
+		  //현재는 단방향으로 넣는 중. 
 		  g.addEdge(0, 1);
 		  g.addEdge(0, 2);
 		  g.addEdge(0, 4);
@@ -70,6 +71,7 @@ class Graph {
 		queue.add(s);
 
 		// 큐(Queue)가 빌 때까지 반복
+		// queue = 0 -> (i.hasNext()) 1, 2, 4 -> 2, 4 -> 2, 4, 3 -> 4, 3 -> 3 -> null
 		while (queue.size() != 0) {
 			// 방문한 노드를 큐에서 추출(dequeue)하고 값을 출력
 			s = queue.poll();

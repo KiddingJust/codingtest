@@ -1,4 +1,4 @@
-package org.kidding.math;
+package org.kidding.backjoon.math;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,6 +8,12 @@ public class Goldbach {
 	
     public static void main(String args[]) {
         
+    	//백준 9020 문제라 치자
+    	//합은 어떻게 구해야하나?
+    	//1. n보다 작은 소수 중에서 더했을 때 n이 나오는 게 있나 체크. 
+    	//for 문 돌려서, arr[i] 차례에, n-arr[i]가 배열에 있으면, 둘다 정답에 담고 없으면 X.
+    	//아 이미 check[] 에 수를 넣었구나.. 
+    	
     	Scanner sc = new Scanner(System.in);
         boolean[] check = new boolean[MAX+1];
         //길이 모르므로 그냥 ArrayList로 

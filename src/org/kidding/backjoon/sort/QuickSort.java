@@ -1,4 +1,4 @@
-package org.kidding.test.sort;
+package org.kidding.backjoon.sort;
 
 public class QuickSort {
 

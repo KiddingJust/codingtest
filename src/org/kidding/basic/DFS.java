@@ -8,12 +8,11 @@ public class DFS {
 	public static void main(String[] args) {
 		GraphDFS g = new GraphDFS(5);
 
-//		g.addEdge(0, 1);
-//		g.addEdge(0, 2);
-//		g.addEdge(1, 2);
-//		g.addEdge(2, 0);
-//		g.addEdge(2, 3);
-//		g.addEdge(3, 3);
+//		[1, 2, 4]
+//		[0, 2]
+//		[0, 1, 3, 4]
+//		[2, 4]
+//		[0, 2, 3]
 		
 		g.addEdge(0, 1);
 		g.addEdge(0, 2);
@@ -29,7 +28,6 @@ public class DFS {
 		g.addEdge(4, 0);
 		g.addEdge(4, 2);
 		g.addEdge(4, 3);
-
 		
 		g.DFS(0); /* 주어진 노드를 시작 노드로 DFS 탐색 */
 //		g.DFS(); /* 비연결형 그래프의 경우 */
@@ -56,8 +54,14 @@ class GraphDFS {
 
 	/** DFS에 의해 사용되는 함수 */
 	void DFSUtil(int v, boolean visited[]) {
-		
+				
 		// 현재 노드를 방문한 것으로 표시하고 값을 출력
+		// visited[0] = true -> visited[1]=true이고 1에서 탐색
+		// -> visited[0]은 이미 true이므로 넘기고 visited[2]=true 이고 2에서 탐색
+		// -> 0, 1은 이미 true이므로 visited[3]=true 이고 3에서 탐색
+		// -> 2는 이미 true 이므로 visited[4] = true이고 4에서 탐색
+		// -> 0, 2, 3 모두 이미 true이므로 더이상 탐색 x. 
+		// 모두 탐색하지만 출력하지는 않는 것. 백트레킹은 탐색까지 안하는 것? 
 		visited[v] = true;
 		System.out.print(v + " ");
 
@@ -65,6 +69,7 @@ class GraphDFS {
 		Iterator<Integer> i = adj[v].listIterator();
 		while (i.hasNext()) {
 			int n = i.next();
+			System.out.println("n: " + n);
 			// 방문하지 않은 노드면 해당 노드를 시작 노드로 다시 DFSUtil 호출
 			if (!visited[n])
 				DFSUtil(n, visited); // 순환 호출
