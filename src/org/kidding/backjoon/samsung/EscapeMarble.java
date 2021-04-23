@@ -7,10 +7,10 @@ import java.util.StringTokenizer;
 
 public class EscapeMarble {
 
-	//일단 지금처럼 풀면 왔던 경로를 되돌아가는 경우가 생김. visited[] 를 해주어야 함. 
-	//이전에 풀었던  bfs, dfs 먼저 다시 풀어보고 이 문제 접근법 다시 익히기. 
-	//한번에 움직이는 걸 생각해야하나.. 쭉 이동할건데 중간에 0 있으면 -1로 해주기. 
-	// --> 그리고 dfs 시에 둘다 -1이면 끝! 둘중 하나가 -1이면 ㅇㅋ 
+	//�씪�떒 吏�湲덉쿂�읆 ��硫� �솕�뜕 寃쎈줈瑜� �릺�룎�븘媛��뒗 寃쎌슦媛� �깮源�. visited[] 瑜� �빐二쇱뼱�빞 �븿. 
+	//�씠�쟾�뿉 ���뿀�뜕  bfs, dfs 癒쇱� �떎�떆 ���뼱蹂닿퀬 �씠 臾몄젣 �젒洹쇰쾿 �떎�떆 �씡�엳湲�. 
+	//�븳踰덉뿉 ��吏곸씠�뒗 嫄� �깮媛곹빐�빞�븯�굹.. 彛� �씠�룞�븷嫄대뜲 以묎컙�뿉 0 �엳�쑝硫� -1濡� �빐二쇨린. 
+	// --> 洹몃━怨� dfs �떆�뿉 �몮�떎 -1�씠硫� �걹! �몮以� �븯�굹媛� -1�씠硫� �뀋�뀑 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -19,145 +19,204 @@ public class EscapeMarble {
 		int y = Integer.parseInt(st.nextToken());
 		
 		String[][] arr = new String[x][y];
-		int[][] place = new int[3][2];
+		int[][] placeX = new int[3][2];
+		int[][] placeY = new int[3][2];
+
 		System.out.println(arr.length + " " +  arr[0].length);
 		int depth = 0;
 		
-		//공백없이 잘라서 쓸 땐 그냥 split 하는 게 마음 편함. 
+		//怨듬갚�뾾�씠 �옒�씪�꽌 �벝 �븧 洹몃깷 split �븯�뒗 寃� 留덉쓬 �렪�븿. 
 		for(int i=0; i<x; i++) {
 			String[] temp = br.readLine().split("");
 			for(int j=0; j<y; j++) {
-				if(temp[j] == "R") {
+				if(temp[j].equals("R")) {
 					arr[i][j] = temp[j];
-					place[0][0] = i;
-					place[0][1] = j;
-				}else if(temp[j] == "B") {
+					placeX[0][0] = i;
+					placeX[0][1] = j;
+					placeY[0][0] = i;
+					placeY[0][1] = j;
+				}else if(temp[j].equals("B")) {
 					arr[i][j] = temp[j];
-					place[1][0] = i;
-					place[1][1] = j;
-				}else if(temp[j] == "0") {
+					placeX[1][0] = i;
+					placeX[1][1] = j;
+					placeY[1][0] = i;
+					placeY[1][1] = j;
+				}else if(temp[j].equals("O")) {
 					arr[i][j] = temp[j];
-					place[2][0] = i;
-					place[2][1] = j;
+					placeX[2][0] = i;
+					placeX[2][1] = j;
+					placeY[2][0] = i;
+					placeY[2][1] = j;
 				}else {
 					arr[i][j] = temp[j];
 				}
 			}
 		}
 		
-//		dfs(arr, place, depth);
-//		for(int i=0; i<x; i++) {
-//			System.out.println(" ");
-//			for(int j=0; j<y; j++) {
-//				System.out.print(arr[i][j]+" ");
-//			}
-//		}	
+		System.out.println("place[0][0]: " + placeX[0][0]);
+		System.out.println("place[0][1]: " + placeX[0][1]);
+		System.out.println("place[1][0]: " + placeX[1][0]);
+		System.out.println("place[1][1]: " + placeX[1][1]);
 		
-		//dfs 함수 고고. B, R, 0 위치 담은 배열, depth
+		//dfs �븿�닔 怨좉퀬. B, R, 0 �쐞移� �떞�� 諛곗뿴, depth
+		int answer = dfs(arr, placeX, depth, "x");
 		
+		System.out.println(" ################################");
+		System.out.println("place[0][0]: " + placeY[0][0]);
+		System.out.println("place[0][1]: " + placeY[0][1]);
+		System.out.println("place[1][0]: " + placeY[1][0]);
+		System.out.println("place[1][1]: " + placeY[1][1]);		
+		int answer2 = dfs(arr, placeY, depth, "y");
 		
+		System.out.println("answer: " + answer);
+		System.out.println("answer2: " + answer2);
 	}
 	
-	void dfs(String[][] arr, int[][] place, int depth, String direction) {
+	static int dfs(String[][] arr, int[][] place, int depth, String direction) {
 		
+		System.out.println("dfs(" + depth + ", " + direction + ")");
+		System.out.println("place[0][0]: " + place[0][0]);
+		System.out.println("place[0][1]: " + place[0][1]);
+		System.out.println("place[1][0]: " + place[1][0]);
+		System.out.println("place[1][1]: " + place[1][1]);
+		System.out.println("========================================");
 		if(place[0][0] == -1 || place[0][1] == -1) {
+			System.out.println("여기안오나??");
 			if(place[1][0] != -1 && place[1][1] != -1) {
-				//끝
+				return depth;
 			}else {
-				//실패 
+				return -1; 
 			}
 		}
-		
 		if(place[1][0] == -1 || place[1][1] == -1) {
-			//실패 . return -1
+			return -1;
 		}
 		if(depth > 10) {
-			//실패. return -1 
+			return -1;
 		}
 		
-		if(direction == "x") {
-			//아래쪽 이동(x)
-			if(arr[place[0][0]+1][place[0][1]] == "." || arr[place[0][0]+1][place[0][1]] == "B") {
-				//열이 같고, B가 더 아래쪽에 있을 때(B가 먼저 이동할 때)
-				if(place[0][1] == place[1][1] && place[0][0] < place[1][0]) {	
+		if(direction.equals("x")) {
+			//�븘�옒履� �씠�룞(x)
+			if(arr[place[0][0]+1][place[0][1]].equals(".") || arr[place[0][0]+1][place[0][1]].equals("O") || arr[place[0][0]+1][place[0][1]].equals("B")) {
+				//�뿴�씠 媛숆퀬, B媛� �뜑 �븘�옒履쎌뿉 �엳�쓣 �븣(B媛� 癒쇱� �씠�룞�븷 �븣)
+				if(place[0][1] == place[1][1] && place[0][0] < place[1][0]) {
+					System.out.println("X + -->  B 이동하고   R 이동 ");
 					place[1][0] = move(arr, place[1][0], place[0][1], "x+");
 					place[0][0] = move(arr, place[0][0], place[0][1], "x+");
 					dfs(arr, place, depth+1, "y");
-				}else {								//열 다를 때
+				}else {								//�뿴 �떎瑜� �븣
+					System.out.println("X + -->  R 이동하고   B 이동 ");
 					place[0][0] = move(arr, place[0][0], place[0][1], "x+");
 					place[1][0] = move(arr, place[1][0], place[0][1], "x+");	
 					dfs(arr, place, depth+1, "y");
 				}	
 			};
-			//위쪽 (x)
-			if(arr[place[0][0]-1][place[0][1]] == "." || arr[place[0][0]-1][place[0][1]] == "B") {
-				//열이 같고, B가 더 위쪽에 있을 때(B가 먼저 이동)
+			//�쐞履� (x)
+			if(arr[place[0][0]-1][place[0][1]].equals(".") || arr[place[0][0]-1][place[0][1]].equals("O") || arr[place[0][0]-1][place[0][1]].equals("B")) {
+				//�뿴�씠 媛숆퀬, B媛� �뜑 �쐞履쎌뿉 �엳�쓣 �븣(B媛� 癒쇱� �씠�룞)
 				if(place[0][1] == place[1][1] && place[0][0] > place[1][0]) {
+					System.out.println("X - -->  B 이동하고   R 이동 ");
 					place[1][0] = move(arr, place[1][0], place[0][1], "x-");
 					place[0][0] = move(arr, place[0][0], place[0][1], "x-");
 					dfs(arr, place, depth+1, "y");
-				}else {								//열 다를 때
+				}else {								//�뿴 �떎瑜� �븣
+					System.out.println("X - -->  R 이동하고   B 이동 ");
 					place[0][0] = move(arr, place[0][0], place[0][1], "x-");
 					place[1][0] = move(arr, place[1][0], place[0][1], "x-");	
 					dfs(arr, place, depth+1, "y");
 				}				
 			};			
 		}else {
-			// 오른쪽 (y)
-			if(arr[place[0][0]][place[0][1]+1] == "." || arr[place[0][0]][place[0][1]+1] == "B") {
-				//행이 같고 B가 더 오른쪽에 있을 때(B가 먼저 이동)
-				if(place[0][0] == place[1][0] && place[0][1] < place[1][1]) {	//행이 같을 때
+			// �삤瑜몄そ (y)
+			if(arr[place[0][0]][place[0][1]+1].equals(".") || arr[place[0][0]][place[0][1]+1].equals("O") || arr[place[0][0]][place[0][1]+1].equals("B")) {
+				//�뻾�씠 媛숆퀬 B媛� �뜑 �삤瑜몄そ�뿉 �엳�쓣 �븣(B媛� 癒쇱� �씠�룞)
+				if(place[0][0] == place[1][0] && place[0][1] < place[1][1]) {	//�뻾�씠 媛숈쓣 �븣
+					System.out.println("Y + -->  B 이동하고   R 이동 ");
 					place[1][1] = move(arr, place[0][0], place[1][1], "y+");
 					place[0][1] = move(arr, place[0][0], place[0][1], "y+");
 					dfs(arr, place, depth+1, "x");
-				}else {								//행 다를 때
+				}else {								//�뻾 �떎瑜� �븣
+					System.out.println("Y + -->  R 이동하고   B 이동 ");
 					place[0][1] = move(arr, place[0][0], place[0][1], "y+");
 					place[1][1] = move(arr, place[0][0], place[1][1], "y+");
 					dfs(arr, place, depth+1, "x");				
 				}			
 			};
-			// 왼쪽 (y)
-			if(arr[place[0][0]][place[0][1]-1] == "." || arr[place[0][0]][place[0][1]-1] == "B") {
-				//행이 같고, B가 더 왼쪽에 있을 때(B가 먼저 이동)
-				if(place[0][0] == place[1][0] && place[0][1] > place[1][1]) {	//행이 같을 때
-					if(place[0][0] == place[1][0] && place[0][1] < place[1][1]) {	//행이 같을 때
+			System.out.println("아 여기를 또타는구나 이전 메서드에서 ");
+			// �쇊履� (y)
+			if(arr[place[0][0]][place[0][1]-1].equals(".") || arr[place[0][0]][place[0][1]-1].equals("O") || arr[place[0][0]][place[0][1]-1].equals("B")) {
+				//�뻾�씠 媛숆퀬, B媛� �뜑 �쇊履쎌뿉 �엳�쓣 �븣(B媛� 癒쇱� �씠�룞)
+				if(place[0][0] == place[1][0] && place[0][1] > place[1][1]) {	//�뻾�씠 媛숈쓣 �븣
+					if(place[0][0] == place[1][0] && place[0][1] < place[1][1]) {	//�뻾�씠 媛숈쓣 �븣
+						System.out.println("Y - -->  B 이동하고   R 이동 ");
 						place[1][1] = move(arr, place[0][0], place[1][1], "y-");
 						place[0][1] = move(arr, place[0][0], place[0][1], "y-");
 						dfs(arr, place, depth+1, "x");
-					}else {								//행 다를 때
+					}else {								//�뻾 �떎瑜� �븣
+						System.out.println("Y - -->  R 이동하고   B 이동 ");
 						place[0][1] = move(arr, place[0][0], place[0][1], "y-");
 						place[1][1] = move(arr, place[0][0], place[1][1], "y-");
 						dfs(arr, place, depth+1, "x");				
 					}						
 				}		
-			};	//왼쪽 (y)			
+			};	//�쇊履� (y)			
 		}
 
-		
+		return -1;
 	}
 	
-	int move(String[][] arr, int x, int y, String xy) {
-		
+	static int move(String[][] arr, int x, int y, String xy) {
+		System.out.println("move( " + x + ", " + y + ", " + xy + ")");
 		int ret = 0;
 		
-		if(xy == "x+") {						//아래로 이동할 때 				
+		if(xy.equals("x+")) {						//�븘�옒濡� �씠�룞�븷 �븣 				
 			while(x<arr.length-1) {
-				if(arr[x+1][y] == ".") {
+				if(arr[x+1][y].equals(".")) {
 					x++;
 					ret = x;
-				}else if(arr[x+1][y] == "0") {
+				}else if(arr[x+1][y].equals("O")) {
 					ret = -1;
 					break;
 				}else {
-					break;
+					return x;
 				}
 			}
-		}else if(xy == "x-"){
-			
-		}else if(xy == "y+") {
-			
+		}else if(xy.equals("x-")){
+			while(x>-1) {
+				if(arr[x-1][y].equals(".")) {
+					x--;
+					ret = x;
+				}else if(arr[x-1][y].equals("O")) {
+					ret = -1;
+					break;
+				}else {
+					return x;
+				}
+			}			
+		}else if(xy.equals("y+")) {
+			while(y<arr[0].length-1) {
+				if(arr[x][y+1].equals(".")) {
+					y++;
+					ret = y;
+				}else if(arr[x][y+1].equals("O")) {
+					ret = -1;
+					break;
+				}else {
+					return y;
+				}
+			}
 		}else {
-		
+			while(y>-1) {
+				if(arr[x][y-1].equals(".")) {
+					y--;
+					ret = y;
+				}else if(arr[x][y-1].equals("O")) {
+					ret = -1;
+					break;
+				}else {
+					return y;
+				}
+			}				
 		}
 		
 		return ret;
